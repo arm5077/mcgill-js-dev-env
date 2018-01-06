@@ -1,12 +1,11 @@
-import path from 'path';
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-export default {
-  debug: true,
+module.exports = {
   devtool: 'inline-source-map',
   devServer: {
     contentBase: './dist'
-  }
-  noInfo: false,
+  },
   entry: [
     path.resolve(__dirname, 'src/index')
   ],
@@ -15,20 +14,26 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
-  plugins: [],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Title here',
+      template: './src/index.html'
+    })
+  ],
   module: {
     rules: [
       {
         test: /\.css$/,
         use: [
           'style-loader',
-          'css-loader'
-        ]
+          'css-loader',
+          'sass-loader'
+        ],
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: [
-          'fileloader'
+          'file-loader'
         ]
       },
       {
@@ -36,11 +41,12 @@ export default {
         use: [
           'file-loader'
         ]
+      },
+      {
+        test: /\.js$/, 
+        exclude: /node_modules/, 
+        loaders: ['babel-loader','eslint-loader'] 
       }
-    ]
-    loaders: [
-      { test: /\.js$/, exclude: /node_modules/, loaders: ['babel'] },
-      { test: /\.css$/, loaders: ['style', 'css'] }
     ]
   }
 }
