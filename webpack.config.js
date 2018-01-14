@@ -23,7 +23,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.(css|scss)$/,
         use: [
           'style-loader',
           'css-loader',
@@ -46,6 +46,12 @@ module.exports = {
         test: /\.js$/, 
         exclude: /node_modules/, 
         loaders: ['babel-loader','eslint-loader'] 
+      },
+      {
+        test: /\.(html)$/,
+        use: [
+          'html-loader'
+        ]
       }
     ]
   }
